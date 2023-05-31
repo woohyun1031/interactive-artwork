@@ -7,9 +7,8 @@ class App {
     this.ctx = this.canvas.getContext("2d");
     this.pixelRatio = window.devicePixelRatio > 1 ? 2 : 1;
     window.addEventListener("resize", this.resize.bind(this), false);
+    window.addEventListener("click", this.click.bind(this), false);
     this.resize();
-    console.log(this.stageWidth, this.stageHeight);
-    new Tree(this.ctx, this.stageWidth / 2, this.stageHeight);
   }
   resize() {
     // body의 너비와 높이 저장
@@ -22,6 +21,10 @@ class App {
 
     // 리사이즈시 캔버스를 비워줌
     this.ctx.clearRect(0, 0, this.stageWidth, this.stageHeight);
+  }
+  click(event) {
+    const { clientX } = event;
+    new Tree(this.ctx, clientX, this.stageHeight);
   }
 }
 
