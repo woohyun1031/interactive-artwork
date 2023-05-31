@@ -6,33 +6,32 @@ export class Branch {
     this.endY = endY;
     this.color = "#000000";
     this.lineWidth = lineWidth;
+
+    this.frame = 12;
+    this.cntFrame = 0;
+    this.gapX = (this.endX - this.startX) / this.frame;
+    this.gapY = (this.endY - this.startY) / this.frame;
+    this.currentX = this.startX;
+    this.currentY = this.startY;
   }
   draw(ctx) {
+    if (this.cntFrame === this.frame) return true;
     ctx.beginPath();
 
-    ctx.moveTo(this.startX, this.startY); // 선의 시작 위치 지정
-    ctx.lineTo(this.endX, this.endY); // 시작위치에서 이동하는 위치 지정
+    this.currentX += this.gapX;
+    this.currentY += this.gapY;
 
-    if (this.lineWidth < 2) {
-      ctx.lineWidth = 0.8;
-    } else if (this.lineWidth < 3) {
-      ctx.lineWidth = 1;
-    } else if (this.lineWidth < 4) {
-      ctx.lineWidth = this.lineWidth * 0.6;
-    } else if (this.lineWidth < 5) {
-      ctx.lineWidth = this.lineWidth * 0.7;
-    } else if (this.lineWidth < 7) {
-      ctx.lineWidth = this.lineWidth * 0.8;
-    } else if (this.lineWidth < 10) {
-      ctx.lineWidth = this.lineWidth * 0.9;
-    } else {
-      ctx.lineWidth = this.lineWidth;
-    }
+    ctx.moveTo(this.startX, this.startY); // 선의 시작 위치 지정
+    ctx.lineTo(this.currentX, this.currentY); // 시작위치에서 이동하는 위치 지정
+
+    ctx.lineWidth = this.lineWidth;
 
     ctx.fillStyle = this.color;
     ctx.strokeStyle = this.color;
 
     ctx.stroke();
     ctx.closePath();
+    this.cntFrame++;
+    return false;
   }
 }
