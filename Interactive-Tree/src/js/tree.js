@@ -6,7 +6,7 @@ export class Tree {
     this.posX = posX;
     this.posY = posY;
     this.branches = [];
-    this.depth = 5;
+    this.depth = 11;
 
     this.init();
   }
@@ -16,14 +16,15 @@ export class Tree {
   }
   createBranch(startX, startY, angle, depth) {
     if (depth === this.depth) return;
-
+    const len = depth === 0 ? this.random(9, 14) : this.random(0, 11);
     // 가지 생성
-    const len = 100;
-    const endX = startX + this.cos(angle) * len;
-    const endY = startY + this.sin(angle) * len;
-    this.branches.push(new Branch(startX, startY, endX, endY));
-    this.createBranch(endX, endY, angle - 30, depth + 1);
-    this.createBranch(endX, endY, angle + 30, depth + 1);
+    const endX = startX + this.cos(angle) * len * (this.depth - depth);
+    const endY = startY + this.sin(angle) * len * (this.depth - depth);
+    this.branches.push(
+      new Branch(startX, startY, endX, endY, this.depth - depth)
+    );
+    this.createBranch(endX, endY, angle - this.random(15, 23), depth + 1);
+    this.createBranch(endX, endY, angle + this.random(15, 23), depth + 1);
   }
   draw(ctx) {
     // 가지들을 캔버스에 draw
@@ -39,5 +40,8 @@ export class Tree {
   }
   degToRad(angle) {
     return (angle / 180.0) * Math.PI;
+  }
+  random(min, max) {
+    return min + Math.floor(Math.random() * (max - min + 1));
   }
 }
