@@ -16,6 +16,7 @@ export class Tree {
   init() {
     for (let i = 0; i < this.depth; i++) {
       this.branches.push([]);
+      // [[branch],[branch, branch],[branch,branch,branch,branch,branch]...]
     }
 
     this.createBranch(this.posX, this.posY, -90, 0);
@@ -35,8 +36,10 @@ export class Tree {
     this.createBranch(endX, endY, angle + this.random(15, 23), depth + 1);
   }
   draw() {
+    console.log(this.cntDepth === this.depth);
     if (this.cntDepth === this.depth) {
       cancelAnimationFrame(this.animation);
+      return;
     }
 
     for (let i = this.cntDepth; i < this.branches.length; i++) {
