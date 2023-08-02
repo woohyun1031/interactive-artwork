@@ -28,9 +28,11 @@ container.addEventListener("mousemove", (event) => {
     const currentAngle =
       Math.atan2(clickedY - center.y, clickedX - center.x) * radToDeg;
     const angleDiff = currentAngle - previousAngle;
-    circle.style.transform = `rotate(${rotationAngle + angleDiff}deg)`;
+    const newAngle = rotationAngle + angleDiff;
+    if (newAngle >= 360 || newAngle < 0) return;
+    circle.style.transform = `rotate(${newAngle}deg)`;
     previousAngle += angleDiff;
-    rotationAngle += angleDiff;
+    rotationAngle = newAngle;
   }
 });
 
