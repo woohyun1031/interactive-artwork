@@ -1,0 +1,24 @@
+/* 전체 초기화 (기본 여백 제거 + 깔끔한 바탕) */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f8f8f8;
+  color: #333;
+}
+
+/* 루트는 전체를 차지하게 */
+#root {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* 스크롤바 숨기기 (선택 사항) */
+body::-webkit-scrollbar {
+  display: none;
+}
