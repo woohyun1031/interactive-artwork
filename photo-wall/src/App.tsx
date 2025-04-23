@@ -4,6 +4,7 @@ import {createBrowserRouter, Navigate, RouterProvider} from 'react-router-dom';
 import SmoothFollowBox from "src/component/SmoothFollowBox.tsx";
 import PhotoWall from "src/component/PhotoWall.tsx";
 import DraggableBox from './component/DraggableBox';
+import SmoothDragBox from "src/component/SmoothDragBox.tsx";
 
 
 const router = createBrowserRouter([
@@ -33,6 +34,13 @@ const router = createBrowserRouter([
                 element: <div>
                     <h1 style={{ textAlign: 'center' }}>3 draggable</h1>
                     <DraggableBox />
+                </div>
+            },
+            {
+                path:'4',
+                element: <div>
+                    <h1 style={{ textAlign: 'center' }}>3 smooth drag</h1>
+                    <SmoothDragBox />
                 </div>
             },
             {
