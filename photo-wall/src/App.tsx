@@ -6,6 +6,7 @@ import PhotoWall from "src/component/PhotoWall.tsx";
 import DraggableBox from './component/DraggableBox';
 import SmoothDragBox from "src/component/SmoothDragBox.tsx";
 import SpreadBoxes from "src/component/SpreadBoxes.tsx";
+import ScrollSpreadBoxes from "src/component/ScrollSpreadBoxes.tsx";
 
 
 const router = createBrowserRouter([
@@ -49,6 +50,13 @@ const router = createBrowserRouter([
                 element: <div>
                     <h1 style={{ textAlign: 'center' }}>5 spread boxes</h1>
                     <SpreadBoxes />
+                </div>
+            },
+            {
+                path:'6',
+                element: <div>
+                    <h1 style={{ textAlign: 'center' }}>6 scroll spread boxes</h1>
+                    <ScrollSpreadBoxes />
                 </div>
             },
             {
