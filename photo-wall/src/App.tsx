@@ -10,7 +10,6 @@ import ScrollSpreadBoxes from "src/component/ScrollSpreadBoxes.tsx";
 import FocusBoxes from "src/component/FocusBoxes.tsx";
 import FocusBoxesWithEsc from "src/component/FocusBoxesWithEsc.tsx";
 
-
 const router = createBrowserRouter([
     {
         path: '/',
@@ -71,7 +70,7 @@ const router = createBrowserRouter([
             {
                 path:'8',
                 element: <div>
-                    <h1 style={{ textAlign: 'center' }}>7 focus boxes</h1>
+                    <h1 style={{ textAlign: 'center' }}>8 focus boxes</h1>
                     <FocusBoxesWithEsc />
                 </div>
             },

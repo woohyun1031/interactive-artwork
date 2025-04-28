@@ -1,8 +1,9 @@
 import React, { useRef, useState, useEffect } from 'react';
 
 // helper to check rectangle overlap
-type Frame = { x: number; y: number; w: number; h: number; bg: string; id: number };
-function isOverlap(a: Frame, b: Frame) {
+type Frame = { x: number; y: number; w: number; h: number; bg: string; id: number; speed: number };
+
+function isOverlap(a: Omit<Frame, 'speed'>, b: Omit<Frame, 'speed'>) {
     return !(a.x + a.w <= b.x || b.x + b.w <= a.x || a.y + a.h <= b.y || b.y + b.h <= a.y);
 }
 
@@ -14,6 +15,7 @@ export default function PhotoWall({ frameCount = 30, maxAttempts = 100, maxSprea
     const [offset, setOffset] = useState({ x: 0, y: 0 });
     const [dragging, setDragging] = useState(false);
     const [focusedId, setFocusedId] = useState<number | null>(null);
+
     const dragStart = useRef({ x: 0, y: 0 });
     const offsetStart = useRef({ x: 0, y: 0 });
 
@@ -22,7 +24,7 @@ export default function PhotoWall({ frameCount = 30, maxAttempts = 100, maxSprea
         if (!container) return;
         const { width: W, height: H } = container.getBoundingClientRect();
         setContainerSize({ w: W, h: H });
-        const newFrames: Frame[] = [];
+        const tempFrame: Omit<Frame, 'speed'>[] = [];
         for (let i = 0; i < frameCount; i++) {
             const w = Math.floor(Math.random() * 150) + 100;
             const h = Math.floor(Math.random() * 150) + 100;
@@ -31,11 +33,17 @@ export default function PhotoWall({ frameCount = 30, maxAttempts = 100, maxSprea
                 x = Math.floor(Math.random() * (W - w));
                 y = Math.floor(Math.random() * (H - h));
                 attempt++;
-            } while (attempt < maxAttempts && newFrames.some(f => isOverlap(f, { x, y, w, h, bg: '', id: -1 })));
+            } while (attempt < maxAttempts && tempFrame.some(f => isOverlap(f, { x, y, w, h, bg: '', id: -1 })));
             const hue = Math.floor(Math.random() * 360);
             const bg = `hsl(${hue}, 60%, 80%)`;
-            newFrames.push({ id: i, w, h, x, y, bg });
+            tempFrame.push({ id: i, w, h, x, y, bg });
         }
+        const maxArea = Math.max(...tempFrame.map(f => f.w * f.h));
+
+        const newFrames: Frame[] = tempFrame.map(f => ({
+            ...f,
+            speed: 0.5 + (f.w * f.h) / maxArea * 1.5  // 0.5~2.0 범위로 보정
+        }));
         setFrames(newFrames);
     }, [frameCount, maxAttempts]);
 
@@ -49,7 +57,6 @@ export default function PhotoWall({ frameCount = 30, maxAttempts = 100, maxSprea
 
     useEffect(() => {
         if (spread === 0 && focusedId === null) {
-            console.log('?')
             setOffset({ x: 0, y: 0 });
         }
     }, [spread, focusedId]);
@@ -94,7 +101,6 @@ export default function PhotoWall({ frameCount = 30, maxAttempts = 100, maxSprea
     };
 
 
-
     return (
         <div
             ref={containerRef}
@@ -113,8 +119,10 @@ export default function PhotoWall({ frameCount = 30, maxAttempts = 100, maxSprea
                     const dx = fCenterX - focalX;
                     const dy = fCenterY - focalY;
 
-                    const xPos = focalX + dx * spread - f.w / 2;
-                    const yPos = focalY + dy * spread - f.h / 2;
+                    const effectiveSpread = spread * f.speed;
+
+                    const xPos = focalX + dx * effectiveSpread - f.w / 2;
+                    const yPos = focalY + dy * effectiveSpread - f.h / 2;
 
                     const isFocused = f.id === focusedId;
 
