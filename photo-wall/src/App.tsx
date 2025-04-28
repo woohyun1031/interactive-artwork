@@ -8,6 +8,7 @@ import SmoothDragBox from "src/component/SmoothDragBox.tsx";
 import SpreadBoxes from "src/component/SpreadBoxes.tsx";
 import ScrollSpreadBoxes from "src/component/ScrollSpreadBoxes.tsx";
 import FocusBoxes from "src/component/FocusBoxes.tsx";
+import FocusBoxesWithEsc from "src/component/FocusBoxesWithEsc.tsx";
 
 
 const router = createBrowserRouter([
@@ -65,6 +66,13 @@ const router = createBrowserRouter([
                 element: <div>
                     <h1 style={{ textAlign: 'center' }}>7 focus boxes</h1>
                     <FocusBoxes />
+                </div>
+            },
+            {
+                path:'8',
+                element: <div>
+                    <h1 style={{ textAlign: 'center' }}>7 focus boxes</h1>
+                    <FocusBoxesWithEsc />
                 </div>
             },
             {
